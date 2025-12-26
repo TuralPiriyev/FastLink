@@ -2,17 +2,17 @@
 <html lang="az">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>OrderLink - Qeydiyyat</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel = "stylesheet" href = "CSS/auth-register.css" />
 </head>
-<body class="auth-body">
+<body>
   <main class="auth-shell">
     <div class="mobile-banner">
       <div class="auth-logo-mark"></div>
       <div>
         <div class="auth-logo-text">OrderLink</div>
-        <div class="auth-desc" style="color:#ededed;">Biznesinizi onlayn idarə edin (RU/EN)</div>
+        <div class="auth-desc">Biznesinizi onlayn idarə edin (RU/EN)</div>
       </div>
     </div>
     <section class="auth-card">
@@ -36,19 +36,50 @@
         <div class="form-grid-auth">
           <div class="section-block">
             <h3 class="section-title">Sahibkar məlumatları (RU/EN)</h3>
-            <div class="field"><label>Ad</label><input type="text" placeholder="Ad" /></div>
-            <div class="field"><label>Soyad</label><input type="text" placeholder="Soyad" /></div>
-            <div class="field"><label>Telefon</label><input type="text" placeholder="+994 XX XXX XX XX" /><div class="helper">Format: +994 XX XXX XX XX</div></div>
-            <div class="field"><label>Email (opsional)</label><input type="email" placeholder="name@mail.com" /></div>
-            <div class="field"><label>Şifrə</label><input type="password" placeholder="Minimum 8 simvol" /><div class="helper">Minimum 8 simvol, hərf və rəqəm</div></div>
-            <div class="field"><label>Şifrəni təsdiqlə</label><input type="password" placeholder="Şifrəni təkrarla" /></div>
+            <div class="field">
+              <label>Ad</label>
+              <input type="text" placeholder="Ad" autocomplete="given-name" />
+            </div>
+            <div class="field">
+              <label>Soyad</label>
+              <input type="text" placeholder="Soyad" autocomplete="family-name" />
+            </div>
+            <div class="field">
+              <label>Telefon</label>
+              <input type="tel" placeholder="+994 XX XXX XX XX" autocomplete="tel" />
+              <div class="helper">Format: +994 XX XXX XX XX</div>
+            </div>
+            <div class="field">
+              <label>Email (opsional)</label>
+              <input type="email" placeholder="name@mail.com" autocomplete="email" />
+            </div>
+            <div class="field">
+              <label>Şifrə</label>
+              <input type="password" placeholder="Minimum 8 simvol" autocomplete="new-password" />
+              <div class="helper">Minimum 8 simvol, hərf və rəqəm</div>
+            </div>
+            <div class="field">
+              <label>Şifrəni təsdiqlə</label>
+              <input type="password" placeholder="Şifrəni təkrarla" autocomplete="new-password" />
+            </div>
           </div>
+          
           <div class="section-block">
             <h3 class="section-title">Biznes məlumatları (RU/EN)</h3>
-            <div class="field"><label>Biznes adı</label><input type="text" placeholder="OrderLink Cafe" /></div>
-            <div class="field"><label>Şəhər</label><input type="text" placeholder="Bakı" /></div>
-            <div class="field"><label>Lokasiya</label><textarea placeholder="Metro yaxınlığı"></textarea></div>
+            <div class="field">
+              <label>Biznes adı</label>
+              <input type="text" placeholder="OrderLink Cafe" />
+            </div>
+            <div class="field">
+              <label>Şəhər</label>
+              <input type="text" placeholder="Bakı" autocomplete="address-level2" />
+            </div>
+            <div class="field">
+              <label>Lokasiya</label>
+              <textarea placeholder="Metro yaxınlığı"></textarea>
+            </div>
           </div>
+          
           <div class="section-block">
             <h3 class="section-title">Paket seçimi (RU/EN)</h3>
             <div class="package-grid">
@@ -81,16 +112,21 @@
               </label>
             </div>
           </div>
+          
           <div class="section-block">
             <div class="terms-row">
               <input type="checkbox" id="terms" />
-              <label for="terms">“Şərtlər və Məxfilik” ilə razıyam (RU: Согласен / EN: I agree)</label>
+              <label for="terms">"Şərtlər və Məxfilik" ilə razıyam (RU: Согласен / EN: I agree)</label>
             </div>
           </div>
+          
           <div class="auth-actions">
-            <button class="btn auth-primary">Hesab yarat (RU: Создать / EN: Create account)</button>
+            <button class="btn auth-primary" type="button">Hesab yarat (RU: Создать / EN: Create account)</button>
           </div>
-          <div class="auth-footer">Artıq hesabınız var? <a href="auth-login.php">Giriş (RU: Вход / EN: Login)</a></div>
+          
+          <div class="auth-footer">
+            Artıq hesabınız var? <a href="auth-login.php">Giriş (RU: Вход / EN: Login)</a>
+          </div>
         </div>
       </div>
     </section>

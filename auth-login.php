@@ -2,24 +2,25 @@
 <html lang="az">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OrderLink - Giriş</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>FastLink - Giriş</title>
+  <link rel="stylesheet" href="CSS/auth-login.css"/>
+
 </head>
-<body class="auth-body">
+<body>
   <main class="auth-shell">
     <div class="mobile-banner">
       <div class="auth-logo-mark"></div>
       <div>
-        <div class="auth-logo-text">OrderLink</div>
-        <div class="auth-desc" style="color:#ededed;">Sürətli sifariş izləmə (RU/EN)</div>
+        <div class="auth-logo-text">FastLink</div>
+        <div class="auth-desc">Sürətli sifariş izləmə (RU/EN)</div>
       </div>
     </div>
     <section class="auth-card">
       <aside class="auth-brand">
         <div class="auth-logo">
           <div class="auth-logo-mark"></div>
-          <div class="auth-logo-text">OrderLink</div>
+          <div class="auth-logo-text">FastLink</div>
         </div>
         <ul class="auth-benefits">
           <li><span class="dot"></span><span>Sürətli sifariş izləmə</span></li>
@@ -36,11 +37,11 @@
         <div class="form-grid-auth">
           <div class="field">
             <label>Telefon və ya Email (RU: Телефон или Email / EN: Phone or Email)</label>
-            <input type="text" placeholder="+994 XX... və ya name@mail.com" />
+            <input type="text" placeholder="+994 XX... və ya name@mail.com" autocomplete="username" />
           </div>
           <div class="field error">
             <label>Şifrə (RU: Пароль / EN: Password)</label>
-            <input type="password" placeholder="••••••••" value="" />
+            <input type="password" placeholder="••••••••" autocomplete="current-password" />
             <div class="error-text">Xəta: məlumatları yenidən yoxlayın</div>
           </div>
           <div class="options-row">
@@ -51,8 +52,7 @@
             <a href="#">Şifrəni unutmusunuz? (RU: Забыли пароль? / EN: Forgot password?)</a>
           </div>
           <div class="auth-actions">
-            <button class="btn auth-primary" type="button" onclick="window.location='index.php?page=overview';">Daxil ol (RU: Войти / EN: Sign in)</button>
-            <button class="btn auth-primary loading" type="button" disabled><span class="spinner"></span>Yüklənir...</button>
+            <button class="btn auth-primary" type="button">Daxil ol (RU: Войти / EN: Sign in)</button>
           </div>
           <div class="auth-footer">Hesabınız yoxdur? <a href="auth-register.php">Qeydiyyat (RU: Регистрация / EN: Register)</a></div>
         </div>

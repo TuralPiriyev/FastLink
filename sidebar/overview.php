@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . '/../middleware/auth_required.php';
+?>
 <section id="overview" class="page">
   <div class="page-head">
     <div>

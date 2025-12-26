@@ -1,5 +1,3 @@
-/* AUTH PAGES - RESPONSIVE & SCROLLABLE FIX */
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -7,24 +5,44 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+:root {
+  --bg: #ffffff;
+  --text: #0a0a0a;
+  --muted: #5a5a5a;
+  --border: #e8e8e8;
+  --panel: #f9f9f9;
+  --accent: #ffc700;
+  --accent-strong: #e6b300;
+  --error: #e5484d;
+  --dark: #0f0f0f;
+  --shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-sm: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
 html {
   overflow-x: hidden;
   width: 100%;
 }
 
-body.auth-body {
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background: radial-gradient(circle at 10% 20%, rgba(255,199,0,0.18), transparent 32%),
               radial-gradient(circle at 90% 10%, rgba(0,0,0,0.12), transparent 28%),
               linear-gradient(135deg, #f9f9fb 0%, #f2f2f7 46%, #ffffff 100%);
-  min-height: 100vh;
+  color: var(--text);
+  line-height: 1.5;
   overflow-x: hidden;
   overflow-y: auto;
+  min-height: 100vh;
   width: 100%;
   margin: 0;
   padding: 0;
 }
 
-/* Auth Shell - Main Container */
 .auth-shell {
   min-height: 100vh;
   width: 100%;
@@ -37,7 +55,6 @@ body.auth-body {
   overflow-x: hidden;
 }
 
-/* Mobile Banner */
 .mobile-banner {
   display: none;
   width: 100%;
@@ -73,7 +90,6 @@ body.auth-body {
   margin-top: 2px;
 }
 
-/* Auth Card */
 .auth-card {
   width: 100%;
   max-width: 1120px;
@@ -82,12 +98,11 @@ body.auth-body {
   border-radius: 18px;
   box-shadow: 0 20px 70px rgba(12, 17, 28, 0.12);
   display: grid;
-  grid-template-columns: 0.42fr 0.58fr;
+  grid-template-columns: 0.38fr 0.62fr;
   overflow: hidden;
   margin: auto 0;
 }
 
-/* Auth Brand Sidebar */
 .auth-brand {
   background: #0b0b0f;
   color: #fff;
@@ -109,6 +124,7 @@ body.auth-body {
   border-radius: 14px;
   background: var(--accent);
   box-shadow: 0 10px 28px rgba(255,199,0,0.35);
+  flex-shrink: 0;
 }
 
 .auth-logo-text {
@@ -130,6 +146,7 @@ body.auth-body {
   gap: 10px;
   font-size: 14px;
   color: #ededed;
+  line-height: 1.4;
 }
 
 .auth-benefits .dot {
@@ -138,6 +155,7 @@ body.auth-body {
   border-radius: 50%;
   background: var(--accent);
   margin-top: 6px;
+  flex-shrink: 0;
 }
 
 .auth-note {
@@ -147,9 +165,10 @@ body.auth-body {
   padding: 12px;
   font-size: 13px;
   color: #dcdcdc;
+  line-height: 1.5;
+  margin-top: auto;
 }
 
-/* Auth Form */
 .auth-form {
   padding: 34px 38px;
   display: grid;
@@ -159,7 +178,7 @@ body.auth-body {
   margin: 0 auto;
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: 90vh;
+  max-height: 85vh;
 }
 
 .auth-form::-webkit-scrollbar {
@@ -179,16 +198,24 @@ body.auth-body {
   background: rgba(0,0,0,0.2);
 }
 
+.auth-form header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 .auth-title {
   margin: 0;
   font-size: 26px;
   font-weight: 800;
   letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
 .auth-desc {
   margin: 0;
   color: var(--muted);
+  font-size: 14px;
 }
 
 .form-grid-auth {
@@ -197,7 +224,6 @@ body.auth-body {
   width: 100%;
 }
 
-/* Section Block */
 .section-block {
   display: grid;
   gap: 14px;
@@ -207,15 +233,16 @@ body.auth-body {
 
 .section-block:last-of-type {
   border-bottom: none;
+  padding-bottom: 0;
 }
 
 .section-title {
   font-size: 18px;
   font-weight: 700;
-  margin: 0;
+  margin: 0 0 2px 0;
+  color: var(--text);
 }
 
-/* Form Fields */
 .field {
   display: grid;
   gap: 8px;
@@ -240,11 +267,13 @@ body.auth-body {
   font-size: 15px;
   background: #f8f9fb;
   transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  font-family: inherit;
 }
 
 .field textarea {
   min-height: 108px;
   resize: vertical;
+  padding-top: 12px;
 }
 
 .field input:focus,
@@ -266,6 +295,7 @@ body.auth-body {
 .field .helper {
   font-size: 12px;
   color: var(--muted);
+  line-height: 1.4;
 }
 
 .field .error-text {
@@ -273,11 +303,10 @@ body.auth-body {
   color: var(--error);
 }
 
-/* Package Grid */
 .package-grid {
   display: grid;
   gap: 12px;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   width: 100%;
 }
 
@@ -298,6 +327,10 @@ body.auth-body {
   transform: translateY(-1px);
 }
 
+.package-card:active {
+  transform: scale(0.98);
+}
+
 .package-card input {
   position: absolute;
   inset: 0;
@@ -307,17 +340,26 @@ body.auth-body {
   height: 100%;
 }
 
+.package-card .package-main {
+  pointer-events: none;
+}
+
 .package-card .pkg-name {
   font-weight: 700;
+  font-size: 16px;
 }
 
 .package-card .pkg-price {
   font-weight: 700;
+  font-size: 15px;
+  color: var(--text);
+  margin-top: 2px;
 }
 
 .package-card .pkg-cap {
   color: var(--muted);
   font-size: 13px;
+  margin-top: 4px;
 }
 
 .package-card .chip {
@@ -330,6 +372,8 @@ body.auth-body {
   padding: 4px 8px;
   border-radius: 999px;
   display: none;
+  font-weight: 600;
+  pointer-events: none;
 }
 
 .package-card:has(input:checked) {
@@ -342,12 +386,12 @@ body.auth-body {
   display: inline-block;
 }
 
-/* Terms Row */
 .terms-row {
   display: flex;
   align-items: center;
   gap: 10px;
   font-size: 14px;
+  width: 100%;
 }
 
 .terms-row input[type="checkbox"] {
@@ -357,44 +401,38 @@ body.auth-body {
   flex-shrink: 0;
 }
 
-/* Options Row */
-.options-row {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  width: 100%;
+.terms-row label {
+  cursor: pointer;
+  line-height: 1.4;
 }
 
-.options-row .left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.options-row a {
-  color: var(--text);
-  text-decoration: underline;
-  font-size: 14px;
-}
-
-/* Auth Actions */
 .auth-actions {
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: 1fr;
   align-items: stretch;
   width: 100%;
 }
 
-/* Buttons */
+.btn {
+  width: 100%;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid var(--border);
+  font-family: inherit;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
 .btn.auth-primary {
   background: #111;
   color: #fff;
   border-color: #111;
   height: 50px;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
 .btn.auth-primary:hover {
@@ -402,24 +440,14 @@ body.auth-body {
   box-shadow: var(--shadow-hover);
 }
 
-.btn.auth-secondary {
-  background: #fff;
-  color: #000;
-  border-color: #d5d7df;
-  height: 50px;
+.btn.auth-primary:active {
+  transform: scale(0.98);
 }
 
-.btn.auth-ghost {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text);
-  height: 50px;
-}
-
-/* Auth Footer */
 .auth-footer {
   font-size: 14px;
   color: var(--muted);
+  text-align: center;
 }
 
 .auth-footer a {
@@ -428,57 +456,11 @@ body.auth-body {
   text-decoration: underline;
 }
 
-/* OTP Card */
-.otp-card {
-  width: min(520px, 100%);
-  background: #fff;
-  border: 1px solid #ececf1;
-  border-radius: 18px;
-  box-shadow: 0 20px 70px rgba(12, 17, 28, 0.12);
-  padding: 30px 26px;
-  display: grid;
-  gap: 18px;
-  margin: 0 auto;
+.auth-footer a:hover {
+  color: var(--dark);
 }
 
-.otp-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 12px;
-  width: 100%;
-}
-
-.otp-grid input {
-  width: 100%;
-  aspect-ratio: 1;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 700;
-  height: 56px;
-  border: 1px solid #e2e4ea;
-  border-radius: 14px;
-  background: #f8f9fb;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.otp-grid input:focus {
-  border-color: #111;
-  box-shadow: 0 0 0 3px rgba(0,0,0,0.08);
-  outline: none;
-  background: #fff;
-}
-
-.otp-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: var(--muted);
-  font-size: 14px;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-/* RESPONSIVE BREAKPOINTS */
+/* RESPONSIVE */
 
 /* Tablet Large - 1024px */
 @media (max-width: 1024px) {
@@ -492,8 +474,12 @@ body.auth-body {
   }
   
   .auth-form {
-    padding: 24px;
+    padding: 28px 32px;
     max-height: none;
+  }
+  
+  .auth-title {
+    font-size: 24px;
   }
 }
 
@@ -504,7 +490,7 @@ body.auth-body {
   }
   
   .auth-form {
-    padding: 24px;
+    padding: 24px 28px;
   }
 }
 
@@ -520,6 +506,7 @@ body.auth-body {
     max-width: 100%;
     box-shadow: none;
     border: none;
+    border-radius: 14px;
   }
   
   .auth-brand {
@@ -530,17 +517,12 @@ body.auth-body {
     display: flex;
   }
   
-  .mobile-banner .auth-logo-mark {
-    width: 40px;
-    height: 40px;
-  }
-  
   .auth-form {
-    padding: 20px 16px;
+    padding: 22px 20px;
   }
   
   .auth-title {
-    font-size: 24px;
+    font-size: 22px;
   }
   
   .section-title {
@@ -566,21 +548,16 @@ body.auth-body {
   
   .mobile-banner {
     padding: 12px 14px;
-    border-radius: 12px;
     margin-bottom: 14px;
   }
   
-  .auth-card {
-    border-radius: 14px;
-  }
-  
   .auth-form {
-    padding: 18px 14px;
-    gap: 18px;
+    padding: 20px 18px;
+    gap: 20px;
   }
   
   .auth-title {
-    font-size: 22px;
+    font-size: 20px;
   }
   
   .form-grid-auth {
@@ -592,20 +569,8 @@ body.auth-body {
     padding: 12px 0;
   }
   
-  .btn.auth-primary,
-  .btn.auth-secondary,
-  .btn.auth-ghost {
+  .btn.auth-primary {
     height: 48px;
-  }
-  
-  .otp-grid {
-    grid-template-columns: repeat(6, minmax(40px, 1fr));
-    gap: 10px;
-  }
-  
-  .otp-grid input {
-    height: auto;
-    font-size: 18px;
   }
 }
 
@@ -633,12 +598,16 @@ body.auth-body {
     font-size: 11px;
   }
   
+  .auth-card {
+    box-shadow: 0 4px 20px rgba(12, 17, 28, 0.08);
+  }
+  
   .auth-form {
-    padding: 16px 12px;
+    padding: 18px 14px;
   }
   
   .auth-title {
-    font-size: 20px;
+    font-size: 19px;
   }
   
   .auth-desc {
@@ -647,6 +616,11 @@ body.auth-body {
   
   .section-title {
     font-size: 15px;
+  }
+  
+  .section-block {
+    gap: 11px;
+    padding: 11px 0;
   }
   
   .field label {
@@ -666,33 +640,37 @@ body.auth-body {
     min-height: 90px;
   }
   
+  .field .helper {
+    font-size: 11px;
+  }
+  
   .package-card {
     padding: 12px;
   }
   
-  .btn.auth-primary,
-  .btn.auth-secondary,
-  .btn.auth-ghost {
+  .package-card .pkg-name {
+    font-size: 15px;
+  }
+  
+  .package-card .pkg-price {
+    font-size: 14px;
+  }
+  
+  .package-card .pkg-cap {
+    font-size: 12px;
+  }
+  
+  .btn.auth-primary {
     height: 46px;
     font-size: 14px;
   }
   
-  .options-row {
-    flex-direction: column;
-    align-items: flex-start;
+  .terms-row {
+    font-size: 13px;
   }
   
   .auth-footer {
     font-size: 13px;
-  }
-  
-  .otp-grid {
-    grid-template-columns: repeat(6, minmax(36px, 1fr));
-    gap: 8px;
-  }
-  
-  .otp-grid input {
-    font-size: 16px;
   }
 }
 
@@ -716,11 +694,11 @@ body.auth-body {
   }
   
   .auth-form {
-    padding: 14px 10px;
+    padding: 16px 12px;
   }
   
   .auth-title {
-    font-size: 19px;
+    font-size: 18px;
   }
   
   .section-title {
@@ -735,14 +713,16 @@ body.auth-body {
     padding: 10px 11px;
   }
   
-  .btn.auth-primary,
-  .btn.auth-secondary,
-  .btn.auth-ghost {
+  .field textarea {
+    min-height: 85px;
+  }
+  
+  .btn.auth-primary {
     height: 44px;
     font-size: 13px;
   }
   
-  .otp-grid input {
-    font-size: 15px;
+  .package-card {
+    padding: 11px;
   }
 }
