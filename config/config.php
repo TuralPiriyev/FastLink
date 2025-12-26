@@ -3,17 +3,17 @@ return [
     'db' => [
         'host' => 'localhost',
         'port' => 3306,
-        'name' => 'fastlink',
+        'name' => 'fast_link',
         'user' => 'root',
         'pass' => '',
         'charset' => 'utf8mb4',
     ],
     'smtp' => [
-        'host' => 'smtp.example.com',
+        'host' => 'smtp.gmail.com',
         'port' => 587,
-        'username' => 'no-reply@example.com',
-        'password' => 'your_smtp_password',
-        'from_email' => 'no-reply@example.com',
+        'username' => 'piriyevtural00@gmail.com',
+        'password' => 'qprg vadq ntww adjf',
+        'from_email' => 'piriyevtural00@gmail.com',
         'from_name' => 'FASTLINK Support',
         'encryption' => 'tls'
     ],

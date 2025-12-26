@@ -21,8 +21,9 @@ if (isset($result['redirect_otp']) && $result['redirect_otp'] === true) {
 }
 
 if ($result['success']) {
-    redirect('/sidebar/overview.php');
+    redirect('sidebar/overview.php');
 }
 
 $_SESSION['errors'] = $result['errors'] ?? ['general' => 'Bilinməyən xəta baş verdi.'];
+$_SESSION['old'] = ['email' => $input['email']];
 redirect('/public/auth/auth-login.php');

@@ -66,14 +66,25 @@ class AuthService
             'otp_expires_at' => $expiry,
         ];
 
-        $this->userService->createUserPendingVerify($userData);
+        $pdo = $this->userService->getPdo();
+        $pdo->beginTransaction();
+        try {
+            $this->userService->createUserPendingVerify($userData);
 
-        $sent = $this->mailService->sendOtpEmail($email, $otpCode);
-        if (!$sent) {
-            return ['success' => false, 'errors' => ['general' => 'OTP e-poçta göndərilə bilmədi. Zəhmət olmasa sonra yenidən cəhd edin.']];
+            $sent = $this->mailService->sendOtpEmail($email, $otpCode);
+            if (!$sent) {
+                $pdo->rollBack();
+                return ['success' => false, 'errors' => ['general' => 'OTP e-poçta göndərilə bilmədi. Zəhmət olmasa sonra yenidən cəhd edin.']];
+            }
+
+            $pdo->commit();
+            return ['success' => true];
+        } catch (Throwable $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            return ['success' => false, 'errors' => ['general' => 'Qeydiyyat zamanı xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.']];
         }
-
-        return ['success' => true];
     }
 
     public function loginFlow(array $input): array

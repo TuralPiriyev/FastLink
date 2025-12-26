@@ -18,6 +18,11 @@ class UserService
         return $user ?: null;
     }
 
+    public function getPdo(): PDO
+    {
+        return $this->pdo;
+    }
+
     public function findUserByPhone(string $phone): ?array
     {
         $stmt = $this->pdo->prepare('SELECT * FROM users WHERE phone = :phone LIMIT 1');

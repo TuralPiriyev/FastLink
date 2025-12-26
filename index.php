@@ -42,7 +42,7 @@ $showSearch = in_array($page, ['products', 'orders', 'delivered', 'payments'], t
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OrderLink İdarə Paneli</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="/FASTLINK/styles.css"/>
 </head>
 <body class="app bg-white text-dark">
   <aside class="sidebar">

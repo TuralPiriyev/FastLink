@@ -2,7 +2,11 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+$autoload = __DIR__ . '/../vendor/autoload.php';
+if (!file_exists($autoload)) {
+    throw new RuntimeException('Composer autoload tapılmadı. Layihə kökündə `composer require phpmailer/phpmailer` çalışdırın.');
+}
+require_once $autoload;
 
 class MailService
 {

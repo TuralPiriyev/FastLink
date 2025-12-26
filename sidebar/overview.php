@@ -1,5 +1,21 @@
 <?php
 require_once __DIR__ . '/../middleware/auth_required.php';
+
+// Simple i18n bootstrap: load translations and a helper closure $t
+$translations = require __DIR__ . '/../translations.php';
+$lang = 'az';
+$dict = $translations[$lang] ?? [];
+$t = function (string $key) use ($dict) {
+  $segments = explode('.', $key);
+  $current = $dict;
+  foreach ($segments as $segment) {
+    if (!isset($current[$segment])) {
+      return $key;
+    }
+    $current = $current[$segment];
+  }
+  return is_string($current) ? $current : $key;
+};
 ?>
 <section id="overview" class="page">
   <div class="page-head">
