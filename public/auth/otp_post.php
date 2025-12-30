@@ -11,6 +11,15 @@ $userService = new UserService();
 $otpService = new OtpService();
 $config = require __DIR__ . '/../../config/config.php';
 
+$allowedEmail = $_SESSION['otp_allowed_email'] ?? '';
+$origin = $_SESSION['otp_origin'] ?? 'login';
+
+if (empty($allowedEmail)) {
+    $_SESSION['errors'] = ['general' => 'OTP sessiyası tapılmadı.'];
+    $fallback = $origin === 'register' ? '/public/auth/auth-register.php' : '/public/auth/auth-login.php';
+    redirect($fallback);
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     redirect('/public/auth/auth-otp.php');
 }
@@ -18,6 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $email = sanitize($_POST['email'] ?? '');
 $otp = trim($_POST['otp'] ?? '');
 $errors = [];
+
+if (strcasecmp($email, $allowedEmail) !== 0) {
+    $errors['general'] = 'OTP sessiyası bu email üçün aktiv deyil.';
+}
 
 if (!isValidEmail($email)) {
     $errors['general'] = 'Email düzgün deyil.';
@@ -53,5 +66,7 @@ if (!empty($errors)) {
 
 $userService->markEmailVerified($email);
 $userService->clearOtp($email);
+
+unset($_SESSION['otp_allowed_email'], $_SESSION['otp_origin']);
 
 redirect('/public/auth/auth-login.php');

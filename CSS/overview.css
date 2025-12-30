@@ -1,0 +1,21 @@
+/* Overview page accent */
+#overview .page-head {
+  background: linear-gradient(135deg, #0f172a, #111827 40%, #0b1224 100%);
+  color: #e2e8f0;
+  border-radius: 18px;
+  padding: 18px;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.22);
+}
+
+#overview .page-head h1 { color: #fff; }
+#overview .page-head .eyebrow { color: rgba(255,255,255,0.7); }
+
+#overview .card.kpi {
+  background: linear-gradient(145deg, #0ea5e9 0%, #22c55e 100%);
+  color: #0b1224;
+  border: none;
+  box-shadow: 0 18px 42px rgba(14,165,233,0.28);
+}
+
+#overview .spark { background: linear-gradient(90deg, #fff, #0f172a); }

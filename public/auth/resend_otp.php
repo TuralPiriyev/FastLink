@@ -14,6 +14,15 @@ $mailService = new MailService();
 $config = require __DIR__ . '/../../config/config.php';
 
 $email = sanitize($_POST['email'] ?? $_GET['email'] ?? '');
+$allowedEmail = $_SESSION['otp_allowed_email'] ?? '';
+$origin = $_SESSION['otp_origin'] ?? 'login';
+
+if (empty($allowedEmail) || strcasecmp($email, $allowedEmail) !== 0) {
+    $_SESSION['errors'] = ['general' => 'OTP sessiyası tapılmadı.'];
+    $fallback = $origin === 'register' ? '/public/auth/auth-register.php' : '/public/auth/auth-login.php';
+    redirect($fallback);
+}
+
 if (!isValidEmail($email)) {
     $_SESSION['errors'] = ['general' => 'Email düzgün deyil.'];
     redirect('/public/auth/auth-otp.php');

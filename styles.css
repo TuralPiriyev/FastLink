@@ -51,6 +51,7 @@ body.app {
   color: var(--text);
   display: flex;
   min-height: 100vh;
+  position: relative;
 }
 
 .bg-white { background: #fff; }
@@ -145,6 +146,23 @@ body.app {
 
 .topbar.no-search { justify-content: space-between; }
 
+.burger {
+  display: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 15px;
+  border: 1.5px solid #0a1024;
+  background: linear-gradient(155deg, #0a1024, #0c1733 45%, #081126);
+  color: #f8fafc;
+  font-size: 28px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 16px 32px rgba(11, 18, 36, 0.3);
+}
+
 .topbar-title {
   font-weight: 800;
   font-size: 20px;
@@ -176,6 +194,7 @@ body.app {
   align-items: center;
   gap: 10px;
 }
+  transition: left 0.25s ease, opacity 0.25s ease;
 
 .icon-btn {
   position: relative;
@@ -349,6 +368,7 @@ body.app {
 
 .wfull { width: 100%; }
 
+
 /* Responsive tweaks */
 @media (max-width: 1100px) {
   .sidebar { width: 220px; }
@@ -357,9 +377,41 @@ body.app {
 
 @media (max-width: 900px) {
   body.app { flex-direction: column; }
-  .sidebar { position: relative; height: auto; border-radius: 0 0 18px 18px; }
+  .burger { display: inline-flex; align-items: center; justify-content: center; }
+  .sidebar {
+    position: fixed;
+    left: 0;
+    transform: translateX(-110%);
+    top: 0;
+    height: 100vh;
+    border-radius: 0;
+    z-index: 50;
+    width: 240px;
+    transition: transform 0.25s ease;
+  }
+  body.sidebar-open .sidebar { transform: translateX(0); }
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 40;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  body.sidebar-open .sidebar-overlay {
+    opacity: 1;
+    pointer-events: all;
+  }
   .main { padding: 20px 16px; }
   .topbar { flex-wrap: wrap; }
+}
+
+@media (min-width: 901px) {
+  .burger { display: none !important; }
+  .sidebar { position: sticky; left: 0; height: 100vh; transform: none; width: 250px; }
+  .sidebar-overlay { display: none; }
+  body.sidebar-open .sidebar { left: 0; }
 }
 
 @media (max-width: 640px) {

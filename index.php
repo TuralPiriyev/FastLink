@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/middleware/auth_required.php';
+
 // Load translations
 $translations = include __DIR__ . '/translations.php';
 $lang = $_GET['lang'] ?? 'az';
@@ -35,6 +37,8 @@ if (!array_key_exists($page, $pages)) {
 }
 
 $showSearch = in_array($page, ['products', 'orders', 'delivered', 'payments'], true);
+$pageCssFile = __DIR__ . '/CSS/' . $page . '.css';
+$pageCssHref = '/FASTLINK/CSS/' . $page . '.css';
 ?>
 <!DOCTYPE html>
 <html lang="az">
@@ -43,6 +47,10 @@ $showSearch = in_array($page, ['products', 'orders', 'delivered', 'payments'], t
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OrderLink İdarə Paneli</title>
   <link rel="stylesheet" href="/FASTLINK/styles.css"/>
+  <link rel="stylesheet" href="/FASTLINK/CSS/sidebar.css"/>
+  <?php if (file_exists($pageCssFile)): ?>
+    <link rel="stylesheet" href="<?php echo $pageCssHref; ?>" />
+  <?php endif; ?>
 </head>
 <body class="app bg-white text-dark">
   <aside class="sidebar">
@@ -60,6 +68,7 @@ $showSearch = in_array($page, ['products', 'orders', 'delivered', 'payments'], t
 
   <main class="main">
     <header class="topbar<?php echo $showSearch ? '' : ' no-search'; ?>">
+      <button class="burger" aria-label="Menu" id="burgerBtn"><span class="brgr-icon">☰</span></button>
       <div class="topbar-title"><?php echo $t('panel_title'); ?></div>
       <?php if ($showSearch): ?>
         <div class="search">
@@ -80,5 +89,23 @@ $showSearch = in_array($page, ['products', 'orders', 'delivered', 'payments'], t
 
     <?php include __DIR__ . '/sidebar/' . $page . '.php'; ?>
   </main>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <script>
+    (function() {
+      const burger = document.getElementById('burgerBtn');
+      const overlay = document.getElementById('sidebarOverlay');
+      const body = document.body;
+
+      function closeSidebar() {
+        body.classList.remove('sidebar-open');
+      }
+
+      burger && burger.addEventListener('click', function() {
+        body.classList.toggle('sidebar-open');
+      });
+
+      overlay && overlay.addEventListener('click', closeSidebar);
+    })();
+  </script>
 </body>
 </html>

@@ -26,6 +26,9 @@ $input = [
 $result = $authService->registerFlow($input);
 
 if ($result['success']) {
+    $otpEmail = filter_var($input['email'], FILTER_VALIDATE_EMAIL) ? trim($input['email']) : '';
+    $_SESSION['otp_allowed_email'] = $otpEmail;
+    $_SESSION['otp_origin'] = 'register';
     redirect('/public/auth/auth-otp.php?email=' . urlencode($input['email']));
 }
 

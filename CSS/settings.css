@@ -1,0 +1,14 @@
+/* Settings page accent */
+#settings .page-head {
+  background: linear-gradient(135deg, #0f172a, #0ea5e9);
+  color: #e2e8f0;
+  border-radius: 18px;
+  padding: 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 16px 32px rgba(14,165,233,0.22);
+}
+
+#settings .page-head h1 { color: #e0f2fe; }
+#settings .page-head .eyebrow { color: rgba(224,242,254,0.78); }
+
+#settings .card { border-color: #bae6fd; box-shadow: 0 10px 24px rgba(14,165,233,0.12); }

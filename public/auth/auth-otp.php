@@ -1,11 +1,22 @@
 <?php
+require_once __DIR__ . '/../../helpers/redirect.php';
+
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
+
 $errors = $_SESSION['errors'] ?? [];
 unset($_SESSION['errors']);
 
-$email = $_GET['email'] ?? '';
+$allowedEmail = $_SESSION['otp_allowed_email'] ?? '';
+$origin = $_SESSION['otp_origin'] ?? 'login';
+
+if (empty($allowedEmail)) {
+    $fallback = $origin === 'register' ? '/public/auth/auth-register.php' : '/public/auth/auth-login.php';
+    redirect($fallback);
+}
+
+$email = $allowedEmail;
 $emailDisplay = htmlentities($email, ENT_QUOTES, 'UTF-8');
 ?>
 <!DOCTYPE html>

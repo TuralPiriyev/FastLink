@@ -5,5 +5,5 @@
  $dbname = 'fast_link';
 
  $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
- if(!$conn) {echo "ugursuz oldu!";}
+ if(!$conn) {echo "failed!";}
 ?>

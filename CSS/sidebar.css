@@ -1,0 +1,60 @@
+/* Sidebar responsive behavior */
+
+/* Desktop extras */
+.sidebar { backdrop-filter: blur(4px); }
+
+/* Mobile: hide sidebar by default, slide from top on burger toggle */
+@media (max-width: 900px) {
+  .burger { display: inline-flex !important; color: white;
+      background: linear-gradient(135deg, #0f172a, #111827 40%, #0b1224 100%);
+      width: 10%; height: 30px; justify-content: center; }
+  .brgr-icon{ height: 100%; width: 100%; align-items: center;}
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    width: 92vw;
+    max-width: 420px;
+    max-height: 70vh;
+    height: auto;
+    overflow-y: auto;
+    transform: translate(-50%, -120%);
+    transition: transform 0.25s ease;
+    border-radius: 0 0 18px 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    z-index: 60;
+    margin: 0 auto;
+    right: 0;
+  }
+
+  body.sidebar-open .sidebar {
+    transform: translate(-50%, 0);
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 50;
+  }
+
+  body.sidebar-open .sidebar-overlay {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* Compact nav spacing for mobile */
+  .sidebar .nav { gap: 6px; }
+  .sidebar .nav-item { padding: 12px 14px; font-size: 15px; }
+  .sidebar .plan-pill { padding: 9px 12px; }
+  .sidebar .help-link { font-size: 14px; }
+}
+
+@media (min-width: 901px) {
+  .burger { display: none !important; }
+  .sidebar { position: sticky; top: 0; height: 100vh; width: 250px; transform: none !important; box-shadow: 8px 0 30px rgba(0,0,0,0.18); }
+  .sidebar-overlay { display: none !important; }
+}

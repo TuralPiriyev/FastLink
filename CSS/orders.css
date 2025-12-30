@@ -1,0 +1,15 @@
+/* Orders page accent */
+#orders .page-head {
+  background: linear-gradient(130deg, #0b1224, #1d4ed8);
+  color: #e2e8f0;
+  border-radius: 18px;
+  padding: 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 16px 36px rgba(30,64,175,0.28);
+}
+
+#orders .page-head h1 { color: #fff; }
+#orders .page-head .eyebrow { color: rgba(255,255,255,0.75); }
+
+#orders .card { border-color: #e0e7ff; box-shadow: 0 12px 28px rgba(59,130,246,0.1); }
+#orders table thead { background: #1d4ed8; color: #f8fafc; }

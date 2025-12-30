@@ -45,20 +45,20 @@ unset($_SESSION['errors'], $_SESSION['old']);
                 <?php if (!empty($errors['general'])): ?>
                     <div class="field error"><div class="error-text"><?php echo $errors['general']; ?></div></div>
                 <?php endif; ?>
-                <form class="form-grid-auth" method="POST" action="login_post.php" novalidate>
+                <form class="form-grid-auth" method="POST" action="login_post.php" novalidate id="login-form">
                     <div class="field <?php echo isset($errors['email']) ? 'error' : ''; ?>">
                         <label>Telefon və ya Email (RU: Телефон или Email / EN: Phone or Email)</label>
-                        <input type="text" name="email" placeholder="+994 XX... və ya name@mail.com" autocomplete="username" value="<?php echo htmlentities($old['email'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required />
+                        <input id="email" type="text" name="email" placeholder="+994 XX... və ya name@mail.com" autocomplete="username" value="<?php echo htmlentities($old['email'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required />
                         <?php if (!empty($errors['email'])): ?><div class="error-text"><?php echo $errors['email']; ?></div><?php endif; ?>
                     </div>
                     <div class="field <?php echo isset($errors['password']) ? 'error' : ''; ?>">
                         <label>Şifrə (RU: Пароль / EN: Password)</label>
-                        <input type="password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+                        <input id="password" type="password" name="password" placeholder="••••••••" autocomplete="current-password" required />
                         <?php if (!empty($errors['password'])): ?><div class="error-text"><?php echo $errors['password']; ?></div><?php endif; ?>
                     </div>
                     <div class="options-row">
                         <div class="left">
-                            <input type="checkbox" id="remember" disabled />
+                            <input type="checkbox" id="remember" />
                             <label for="remember">Məni xatırla (RU: Запомнить / EN: Remember me)</label>
                         </div>
                         <span style="font-size:13px;color:#5a5a5a;">Şifrəni unutmusunuz? (hazırda deaktiv)</span>
@@ -71,5 +71,38 @@ unset($_SESSION['errors'], $_SESSION['old']);
             </div>
         </section>
     </main>
+    <script>
+        // Local remember-me: stores email/password in localStorage when enabled.
+        const LS_KEY = 'fastlink_login';
+        const form = document.getElementById('login-form');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const rememberInput = document.getElementById('remember');
+
+        // Prefill from storage if present.
+        try {
+            const saved = JSON.parse(localStorage.getItem(LS_KEY) || 'null');
+            if (saved && saved.email) {
+                emailInput.value = saved.email;
+                passwordInput.value = saved.password || '';
+                rememberInput.checked = true;
+            }
+        } catch (e) {
+            /* ignore corrupted storage */
+        }
+
+        form.addEventListener('submit', () => {
+            if (rememberInput.checked) {
+                const payload = {
+                    email: emailInput.value || '',
+                    password: passwordInput.value || '',
+                    ts: Date.now()
+                };
+                localStorage.setItem(LS_KEY, JSON.stringify(payload));
+            } else {
+                localStorage.removeItem(LS_KEY);
+            }
+        });
+    </script>
 </body>
 </html>
