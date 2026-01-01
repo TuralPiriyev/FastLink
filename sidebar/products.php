@@ -185,7 +185,38 @@ unset($_SESSION['errors'], $_SESSION['success'], $_SESSION['old']);
       const addImages = document.getElementById('addImages');
       const addThumbs = document.getElementById('addThumbs');
       const addForm = document.getElementById('addProductForm');
+      const searchInput = document.querySelector('#products .toolbar .search input');
+      const productGrid = document.querySelector('#products .product-grid');
+      const productCards = Array.from(document.querySelectorAll('#products .product-card[data-id]'));
       let addSelectedFiles = [];
+
+      function applySearch(term) {
+        const q = (term || '').toLowerCase();
+        productCards.forEach((card) => {
+          const name = (card.dataset.name || '').toLowerCase();
+          const match = !q || name.includes(q);
+          card.style.display = match ? '' : 'none';
+        });
+
+        // Recount visible after display changes (rely on offsetParent to avoid hidden elements)
+        const visible = productCards.reduce((cnt, card) => card.offsetParent ? cnt + 1 : cnt, 0);
+
+        let noRes = productGrid.querySelector('.no-results');
+        if (!noRes) {
+          noRes = document.createElement('div');
+          noRes.className = 'card product-card no-results';
+          noRes.style.gridColumn = '1 / -1';
+          noRes.style.textAlign = 'center';
+          noRes.textContent = 'Nəticə tapılmadı';
+          productGrid.appendChild(noRes);
+        }
+
+        const shouldShow = productCards.length > 0 && visible === 0;
+        noRes.style.display = shouldShow ? '' : 'none';
+      }
+
+      searchInput && searchInput.addEventListener('input', (e) => applySearch(e.target.value));
+      applySearch('');
 
       window.closeAddProduct = function() {
         addModal.classList.remove('active');

@@ -39,6 +39,7 @@ if (!array_key_exists($page, $pages)) {
 $showSearch = in_array($page, ['products', 'orders', 'delivered', 'payments'], true);
 $pageCssFile = __DIR__ . '/CSS/' . $page . '.css';
 $pageCssHref = '/FASTLINK/CSS/' . $page . '.css';
+$pageCssVersion = file_exists($pageCssFile) ? filemtime($pageCssFile) : null; // cache-bust page CSS
 ?>
 <!DOCTYPE html>
 <html lang="az">
@@ -49,7 +50,7 @@ $pageCssHref = '/FASTLINK/CSS/' . $page . '.css';
   <link rel="stylesheet" href="/FASTLINK/styles.css"/>
   <link rel="stylesheet" href="/FASTLINK/CSS/sidebar.css"/>
   <?php if (file_exists($pageCssFile)): ?>
-    <link rel="stylesheet" href="<?php echo $pageCssHref; ?>" />
+    <link rel="stylesheet" href="<?php echo $pageCssHref . ($pageCssVersion ? ('?v=' . $pageCssVersion) : ''); ?>" />
   <?php endif; ?>
 </head>
 <body class="app bg-white text-dark">

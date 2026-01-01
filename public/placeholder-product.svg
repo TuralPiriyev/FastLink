@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="400" viewBox="0 0 640 400" fill="none">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#667eea" offset="0"/>
+      <stop stop-color="#764ba2" offset="1"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="400" rx="24" fill="url(#g)"/>
+  <rect x="40" y="40" width="560" height="320" rx="20" fill="#ffffff" fill-opacity="0.9"/>
+  <g fill="#667eea" fill-opacity="0.65">
+    <circle cx="320" cy="180" r="50" />
+    <path d="M220 300c20-40 60-80 100-80s80 40 100 80H220z"/>
+  </g>
+  <text x="320" y="340" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#4b5563">Image coming soon</text>
+</svg>

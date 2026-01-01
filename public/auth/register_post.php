@@ -29,6 +29,11 @@ if ($result['success']) {
     $otpEmail = filter_var($input['email'], FILTER_VALIDATE_EMAIL) ? trim($input['email']) : '';
     $_SESSION['otp_allowed_email'] = $otpEmail;
     $_SESSION['otp_origin'] = 'register';
+    $_SESSION['pending_registration'] = [
+        'user' => $result['pending_user'],
+        'otp_hash' => $result['otp_hash'],
+        'otp_expires_at' => $result['otp_expires_at'],
+    ];
     redirect('/public/auth/auth-otp.php?email=' . urlencode($input['email']));
 }
 

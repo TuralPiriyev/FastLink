@@ -29,11 +29,21 @@ class MailService
         $this->mailer->SMTPAuth = true;
         $this->mailer->Username = $smtp['username'];
         $this->mailer->Password = $smtp['password'];
-        $this->mailer->SMTPSecure = $smtp['encryption'];
-        $this->mailer->Port = $smtp['port'];
+        // Use PHPMailer constants for clarity and reduce misconfig risk
+        $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $this->mailer->Port = (int)$smtp['port'];
         $this->mailer->CharSet = 'UTF-8';
         $this->mailer->setFrom($smtp['from_email'], $smtp['from_name']);
         $this->mailer->isHTML(true);
+
+        // Allow local/self-signed during dev; adjust for production as needed
+        $this->mailer->SMTPOptions = [
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true,
+            ],
+        ];
     }
 
     public function sendOtpEmail(string $toEmail, string $otpCode): bool

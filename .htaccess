@@ -1,0 +1,4 @@
+RewriteEngine On
+
+# Pretty link: https://fastlink/<business>/shop -> public/shop/index.php?slug=<business>
+RewriteRule ^([^/]+)/shop/?$ public/shop/index.php?slug=$1 [L,QSA]

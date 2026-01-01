@@ -10,7 +10,7 @@ return [
     ],
     'smtp' => [
         'host' => 'smtp.gmail.com',
-        'port' => 587,
+        'port' => 465,
         'username' => 'piriyevtural00@gmail.com',
         'password' => 'qprg vadq ntww adjf',
         'from_email' => 'piriyevtural00@gmail.com',
