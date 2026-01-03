@@ -84,7 +84,7 @@ $pageCssVersion = file_exists($pageCssFile) ? filemtime($pageCssFile) : null; //
             <a class="lang-link <?php echo $lang === $code ? 'active' : ''; ?>" href="index.php?page=<?php echo $page; ?>&lang=<?php echo $code; ?>"><?php echo strtoupper($code); ?></a>
           <?php endforeach; ?>
         </div>
-        <button class="pill">👤 Admin ▾</button>
+        <button class="pill">👤 Admin </button>
       </div>
     </header>
 

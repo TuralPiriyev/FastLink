@@ -18,6 +18,7 @@ $name = trim($_POST['name'] ?? '');
 $priceRaw = $_POST['price'] ?? '0';
 $description = trim($_POST['description'] ?? '');
 $isActive = isset($_POST['is_active']) && $_POST['is_active'] == '1';
+$filterOptionIds = array_map('intval', $_POST['filter_option_ids'] ?? []);
 
 $errors = [];
 
@@ -62,13 +63,14 @@ if (!empty($errors)) {
         'price' => $priceRaw,
         'description' => $description,
         'is_active' => $isActive ? 1 : 0,
+        'filter_option_ids' => $filterOptionIds,
     ];
     redirect('/index.php?page=products');
 }
 
 try {
     $service = new ProductService();
-    $service->updateProduct($productId, $userId, $name, $price, $description ?: null, $isActive, $_FILES['images'] ?? []);
+    $service->updateProduct($productId, $userId, $name, $price, $description ?: null, $isActive, $_FILES['images'] ?? [], $filterOptionIds);
     $_SESSION['success'] = 'Məhsul yeniləndi.';
 } catch (Throwable $e) {
     $_SESSION['errors'] = ['general' => 'Məhsul yenilənərkən xəta baş verdi.'];

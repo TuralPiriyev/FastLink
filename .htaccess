@@ -1,4 +1,10 @@
 RewriteEngine On
 
+# Prefer the public landing page when hitting the root
+DirectoryIndex public/index.php index.php index.html
+
+# If root requested with no path, serve public landing
+RewriteRule ^$ public/index.php [L]
+
 # Pretty link: https://fastlink/<business>/shop -> public/shop/index.php?slug=<business>
 RewriteRule ^([^/]+)/shop/?$ public/shop/index.php?slug=$1 [L,QSA]

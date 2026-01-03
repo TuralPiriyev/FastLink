@@ -12,7 +12,7 @@ class ProductService
         $this->uploadDir = dirname(__DIR__) . '/public/uploads/products';
     }
 
-    public function createProduct(int $userId, string $name, float $price, ?string $description, bool $isActive, array $files = []): int
+    public function createProduct(int $userId, string $name, float $price, ?string $description, bool $isActive, array $files = [], array $filterOptionIds = []): int
     {
         $this->ensureUploadDir();
 
@@ -30,6 +30,7 @@ class ProductService
             $productId = (int)$this->pdo->lastInsertId();
 
             $this->saveImages($productId, $files);
+            $this->syncFilterOptions($productId, $filterOptionIds);
 
             $this->pdo->commit();
             return $productId;
@@ -41,7 +42,7 @@ class ProductService
         }
     }
 
-    public function updateProduct(int $productId, int $userId, string $name, float $price, ?string $description, bool $isActive, array $files = []): void
+    public function updateProduct(int $productId, int $userId, string $name, float $price, ?string $description, bool $isActive, array $files = [], array $filterOptionIds = []): void
     {
         $this->ensureUploadDir();
 
@@ -66,6 +67,8 @@ class ProductService
                 $this->deleteImages($productId);
                 $this->saveImages($productId, $files);
             }
+
+            $this->syncFilterOptions($productId, $filterOptionIds);
 
             $this->pdo->commit();
         } catch (Throwable $e) {
@@ -102,11 +105,16 @@ class ProductService
 
     public function getProductsWithImages(int $userId): array
     {
-        $sql = 'SELECT p.*, pi.image_path
+        $sql = 'SELECT p.*, pi.image_path,
+                   fo.id AS option_id, fo.name AS option_name, fo.slug AS option_slug,
+                   f.id AS filter_id, f.name AS filter_name, f.slug AS filter_slug
                 FROM products p
                 LEFT JOIN product_images pi ON pi.product_id = p.id
+                LEFT JOIN product_filter_options pfo ON pfo.product_id = p.id
+                LEFT JOIN filter_options fo ON fo.id = pfo.filter_option_id
+                LEFT JOIN filters f ON f.id = fo.filter_id
                 WHERE p.user_id = :user_id
-                ORDER BY p.created_at DESC, pi.sort_order ASC, pi.id ASC';
+                ORDER BY p.created_at DESC, pi.sort_order ASC, pi.id ASC, f.name ASC, fo.name ASC';
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['user_id' => $userId]);
@@ -125,15 +133,55 @@ class ProductService
                     'is_active' => (int)$row['is_active'] === 1,
                     'images' => [],
                     'created_at' => $row['created_at'],
+                    'filters' => [],
                 ];
             }
+
             if (!empty($row['image_path'])) {
                 $grouped[$pid]['images'][] = $row['image_path'];
             }
+
+            if (!empty($row['option_id']) && !empty($row['filter_id'])) {
+                $fid = (int)$row['filter_id'];
+                $oid = (int)$row['option_id'];
+                if (!isset($grouped[$pid]['filters'][$fid])) {
+                    $grouped[$pid]['filters'][$fid] = [
+                        'filter_id' => $fid,
+                        'filter_slug' => $row['filter_slug'],
+                        'filter_name' => $row['filter_name'],
+                        'options' => [],
+                    ];
+                }
+                if (!isset($grouped[$pid]['filters'][$fid]['options'][$oid])) {
+                    $grouped[$pid]['filters'][$fid]['options'][$oid] = [
+                        'id' => $oid,
+                        'slug' => $row['option_slug'],
+                        'name' => $row['option_name'],
+                    ];
+                }
+            }
         }
 
-        // Ensure deterministic order
+        // Normalize options to indexed arrays for output
+        foreach ($grouped as &$product) {
+            if (!empty($product['filters'])) {
+                foreach ($product['filters'] as &$f) {
+                    $f['options'] = array_values($f['options']);
+                }
+                unset($f);
+                $product['filters'] = array_values($product['filters']);
+            }
+        }
+        unset($product);
+
         return array_values($grouped);
+    }
+
+    public function getSelectedFilterOptionIds(int $productId): array
+    {
+        $stmt = $this->pdo->prepare('SELECT filter_option_id FROM product_filter_options WHERE product_id = :pid');
+        $stmt->execute(['pid' => $productId]);
+        return array_map('intval', $stmt->fetchAll(PDO::FETCH_COLUMN) ?: []);
     }
 
     private function saveImages(int $productId, array $files): void
@@ -211,5 +259,60 @@ class ProductService
 
         $del = $this->pdo->prepare('DELETE FROM product_images WHERE product_id = :id');
         $del->execute(['id' => $productId]);
+    }
+
+    private function syncFilterOptions(int $productId, array $filterOptionIds): void
+    {
+        $del = $this->pdo->prepare('DELETE FROM product_filter_options WHERE product_id = :pid');
+        $del->execute(['pid' => $productId]);
+
+        if (empty($filterOptionIds)) {
+            return;
+        }
+
+        $insert = $this->pdo->prepare('INSERT INTO product_filter_options (product_id, filter_option_id) VALUES (:pid, :oid)');
+        foreach ($filterOptionIds as $oid) {
+            $insert->execute([
+                'pid' => $productId,
+                'oid' => (int)$oid,
+            ]);
+        }
+    }
+
+    /**
+     * Attach given filter options to many products (additive, keeps existing).
+     */
+    public function attachOptionsToProducts(int $userId, array $productIds, array $optionIds): void
+    {
+        $productIds = array_values(array_unique(array_map('intval', $productIds)));
+        $optionIds = array_values(array_unique(array_map('intval', $optionIds)));
+        if (empty($productIds) || empty($optionIds)) {
+            return;
+        }
+
+        // only user's products
+        $in = implode(',', array_fill(0, count($productIds), '?'));
+        $stmt = $this->pdo->prepare("SELECT id FROM products WHERE user_id = ? AND id IN ($in)");
+        $stmt->execute(array_merge([$userId], $productIds));
+        $ownedIds = array_map('intval', $stmt->fetchAll(PDO::FETCH_COLUMN) ?: []);
+        if (empty($ownedIds)) {
+            return;
+        }
+
+        $this->pdo->beginTransaction();
+        try {
+            $insert = $this->pdo->prepare('INSERT IGNORE INTO product_filter_options (product_id, filter_option_id) VALUES (:pid, :oid)');
+            foreach ($ownedIds as $pid) {
+                foreach ($optionIds as $oid) {
+                    $insert->execute(['pid' => $pid, 'oid' => $oid]);
+                }
+            }
+            $this->pdo->commit();
+        } catch (Throwable $e) {
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+            throw $e;
+        }
     }
 }
